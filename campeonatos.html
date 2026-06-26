@@ -24,7 +24,12 @@
 
     <main>
         <!-- Hero da Página -->
-        <section class="hero hero-small">
+        <section class="hero hero-small" style="
+            background-image: linear-gradient(rgba(11,61,46,0.82), rgba(11,61,46,0.92)),
+                              url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Crowd_at_the_2012_Champions_League_Final.jpg/1280px-Crowd_at_the_2012_Champions_League_Final.jpg');
+            background-size: cover;
+            background-position: center;
+        ">
             <div class="hero-content">
                 <h1>Grandes Campeonatos</h1>
                 <p>A história, os campeões e as curiosidades dos torneios mais cobiçados do planeta.</p>
@@ -49,7 +54,7 @@
 
                 <!-- Copa do Mundo -->
                 <div class="card tournament-card" data-categoria="mundial">
-                    <div class="tournament-badge">🏆</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/2022_FIFA_World_Cup.svg/200px-2022_FIFA_World_Cup.svg.png" alt="Copa do Mundo FIFA"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1930 · FIFA</p>
                         <h3>Copa do Mundo FIFA</h3>
@@ -66,7 +71,7 @@
 
                 <!-- UEFA Champions League -->
                 <div class="card tournament-card" data-categoria="europa">
-                    <div class="tournament-badge">⭐</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/UEFA_Champions_League_logo_2.svg/200px-UEFA_Champions_League_logo_2.svg.png" alt="UEFA Champions League"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1955 · UEFA</p>
                         <h3>UEFA Champions League</h3>
@@ -83,7 +88,7 @@
 
                 <!-- Copa Libertadores -->
                 <div class="card tournament-card" data-categoria="america">
-                    <div class="tournament-badge">🦅</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/54/Copa_Libertadores_logo.svg/200px-Copa_Libertadores_logo.svg.png" alt="Copa Libertadores"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1960 · CONMEBOL</p>
                         <h3>Copa Libertadores da América</h3>
@@ -100,7 +105,7 @@
 
                 <!-- Campeonato Brasileiro -->
                 <div class="card tournament-card" data-categoria="brasil">
-                    <div class="tournament-badge">🇧🇷</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Campeonato_Brasileiro_S%C3%A9rie_A_logo.svg/200px-Campeonato_Brasileiro_S%C3%A9rie_A_logo.svg.png" alt="Brasileirão Série A"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1959 · CBF</p>
                         <h3>Campeonato Brasileiro Série A</h3>
@@ -117,7 +122,7 @@
 
                 <!-- Premier League -->
                 <div class="card tournament-card" data-categoria="europa">
-                    <div class="tournament-badge">🦁</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/200px-Premier_League_Logo.svg.png" alt="Premier League"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1992 · FA</p>
                         <h3>Premier League</h3>
@@ -134,7 +139,7 @@
 
                 <!-- La Liga -->
                 <div class="card tournament-card" data-categoria="europa">
-                    <div class="tournament-badge">🐂</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/LaLiga.svg/200px-LaLiga.svg.png" alt="La Liga"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1929 · RFEF</p>
                         <h3>La Liga Española</h3>
@@ -151,7 +156,7 @@
 
                 <!-- Copa do Brasil -->
                 <div class="card tournament-card" data-categoria="brasil">
-                    <div class="tournament-badge">🏅</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Copa_do_Brasil_logo.svg/200px-Copa_do_Brasil_logo.svg.png" alt="Copa do Brasil"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1989 · CBF</p>
                         <h3>Copa do Brasil</h3>
@@ -168,7 +173,7 @@
 
                 <!-- Copa América -->
                 <div class="card tournament-card" data-categoria="america">
-                    <div class="tournament-badge">🌎</div>
+                    <div class="tournament-badge"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Copa_Am%C3%A9rica_2024_logo.svg/200px-Copa_Am%C3%A9rica_2024_logo.svg.png" alt="Copa América"></div>
                     <div class="tournament-info">
                         <p class="creation-year">Fundação: 1916 · CONMEBOL</p>
                         <h3>Copa América</h3>
@@ -308,8 +313,20 @@
         }
 
         .tournament-badge {
-            font-size: 2.5rem;
-            line-height: 1;
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .tournament-badge img {
+            max-height: 110px;
+            max-width: 100%;
+            object-fit: contain;
         }
 
         .tournament-info {
