@@ -114,6 +114,24 @@ a {
     font-size: 1.5rem;
     cursor: pointer;
 }
+/* ==========================================================================
+   JOGOS
+   ========================================================================== */
+.live-ticker {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+.ticker-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.badge-live { color: #EF4444; }
+.badge-next { color: var(--gold); }
 
 /* ==========================================================================
    HERO & CARROSSEL
