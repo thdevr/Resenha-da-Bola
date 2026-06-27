@@ -119,38 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
-    // 6. CONTADORES ANIMADOS (PÁGINA DE ESTATÍSTICAS)
-    const counters = document.querySelectorAll('.counter-number');
     
-    if (counters.length > 0) {
-        const animateCounters = () => {
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                
-                // Ajuste de velocidade baseado no número alvo
-                const speed = target / 100; 
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + speed);
-                    setTimeout(animateCounters, 20);
-                } else {
-                    counter.innerText = target;
-                }
-            });
-        };
-
-        // Ativa os contadores quando entram na tela usando IntersectionObserver
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        counters.forEach(counter => observer.observe(counter));
-    }
+    
 });

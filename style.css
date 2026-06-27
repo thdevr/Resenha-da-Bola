@@ -160,7 +160,11 @@ a {
     display: none;
     align-items: flex-end;
     padding: 3rem;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    
+    /* Propriedades para a imagem ocupar todo o card sem distorcer */
+    
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .carousel-slide.active {
