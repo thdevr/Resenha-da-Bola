@@ -1,0 +1,15 @@
+# Editor de código (VS Code)
+.vscode/
+
+# Editor de código (JetBrains / WebStorm / PyCharm)
+.idea/
+
+# Arquivos temporários do Sistema Operacional (Windows / macOS)
+Thumbs.db
+.DS_Store
+
+# Logs de erro e arquivos temporários de execução
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
