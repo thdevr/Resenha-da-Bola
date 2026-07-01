@@ -280,10 +280,172 @@
             font-weight: 600;
         }
 
+        /* ── Próximo Jogo ── */
+        .next-match-card {
+            padding: 1.75rem 1.5rem 1.25rem;
+        }
+        .next-badge {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .next-match-badge-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .next-match-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            flex: 1;
+        }
+        .next-match-competition {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .next-match-vs {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            line-height: 1.1;
+        }
+        .next-match-date, .next-match-stadium {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .next-team-names {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            padding: 0 4px;
+        }
+        /* Probabilidades */
+        .next-match-prob {
+            width: 100%;
+            margin-top: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .prob-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+        }
+        .prob-label {
+            min-width: 60px;
+            color: var(--text-muted);
+            text-align: right;
+        }
+        .prob-bar-wrap {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .prob-bar { height: 100%; border-radius: 4px; }
+        .prob-home { background: #c8102e; }
+        .prob-draw { background: #6b7280; }
+        .prob-away { background: #034694; }
+        .prob-val  { min-width: 36px; font-weight: 700; color: var(--text-main); font-size: 0.78rem; }
+
+        /* ── H2H ── */
+        .h2h-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .h2h-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .h2h-badge { width: 44px; height: 44px; object-fit: contain; }
+        .h2h-team-name { font-size: 0.82rem; font-weight: 700; color: var(--text-main); }
+        .h2h-wins {
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .wins-home { color: #c8102e; }
+        .wins-away { color: #034694; }
+        .h2h-totals {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            text-align: center;
+        }
+        .h2h-record { font-size: 0.75rem; color: var(--text-muted); }
+        .h2h-record-detail { font-size: 0.88rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.04em; }
+        .h2h-streak { font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+
+        .h2h-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--bg-light);
+            flex-wrap: wrap;
+        }
+        .h2h-row:last-child { border-bottom: none; }
+        .h2h-date { font-size: 0.75rem; color: var(--text-muted); min-width: 72px; font-variant-numeric: tabular-nums; }
+        .h2h-competition { font-size: 0.72rem; color: var(--text-muted); flex: 1; }
+        .h2h-match {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.88rem;
+        }
+        .h2h-team-label { font-weight: 600; font-size: 0.82rem; color: var(--text-main); min-width: 54px; }
+        .h2h-team-label.ars { text-align: right; color: #c8102e; }
+        .h2h-team-label.che { text-align: left; color: #034694; }
+        .h2h-score {
+            font-size: 1rem;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-variant-numeric: tabular-nums;
+            min-width: 52px;
+            text-align: center;
+        }
+        .win-home { background: #fee2e2; color: #991b1b; }
+        .draw     { background: #f3f4f6; color: #374151; }
+        .win-away { background: #dbeafe; color: #1e40af; }
+        .h2h-result-pill {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 99px;
+            color: var(--white);
+            letter-spacing: 0.05em;
+        }
+        .res-home { background: #c8102e; }
+        .res-away { background: #034694; }
+        .res-draw { background: #6b7280; }
+
         @media (max-width: 600px) {
             .match-score { font-size: 2.8rem; }
             .stat-label  { font-size: 0.7rem; }
             .team-badge  { width: 56px; height: 56px; }
+            .next-badge  { width: 52px; height: 52px; }
+            .h2h-competition { display: none; }
         }
     </style>
 </head>
@@ -298,6 +460,7 @@
                 <a href="campeonatos.html">Campeonatos</a>
                 <a href="lendas.html">Lendas</a>
                 <a href="estatisticas.html" class="active">Estatísticas</a>
+                <a href="loja.html">Loja</a>
             </nav>
             <button id="theme-toggle" class="theme-btn" aria-label="Mudar Tema">🌙</button>
         </div>
@@ -340,6 +503,7 @@
             <button class="tab-btn active" role="tab" onclick="showTab('estatisticas', this)">Estatísticas</button>
             <button class="tab-btn" role="tab" onclick="showTab('eventos', this)">Eventos</button>
             <button class="tab-btn" role="tab" onclick="showTab('jogadores', this)">Jogadores</button>
+            <button class="tab-btn" role="tab" onclick="showTab('proximojogo', this)">Próximo Jogo</button>
         </div>
 
         <!-- PAINEL: ESTATÍSTICAS -->
@@ -376,6 +540,127 @@
 
             <div class="section-title" style="margin-top:2rem;">Chelsea</div>
             <div class="players-grid" id="players-away"></div>
+        </div>
+
+        <!-- PAINEL: PRÓXIMO JOGO -->
+        <div id="panel-proximojogo" class="tab-panel container" style="max-width:860px;">
+
+            <!-- Próximo jogo do dia -->
+            <div class="section-title">Próximo Jogo do Dia — Premier League</div>
+            <div class="card next-match-card">
+                <div class="next-match-badge-row">
+                    <img src="c:\Users\Win 10\Downloads\Wolverhampton_Wanderers.png" alt="Bournemouth" class="next-badge">
+                    <div class="next-match-center">
+                        <span class="next-match-competition">⚽ Premier League · Rodada 1 · 2026/27</span>
+                        <span class="next-match-vs">VS</span>
+                        <span class="next-match-date">📅 Sex, 21 Ago 2026 · 16h00 (BRT)</span>
+                        <span class="next-match-stadium">📍 Emirates Stadium, Londres</span>
+                        <div class="next-match-prob">
+                            <div class="prob-item">
+                                <span class="prob-label">Bournemouth</span>
+                                <div class="prob-bar-wrap"><div class="prob-bar prob-home" style="width:82.2%"></div></div>
+                                <span class="prob-val">82,2%</span>
+                            </div>
+                            <div class="prob-item">
+                                <span class="prob-label">Empate</span>
+                                <div class="prob-bar-wrap"><div class="prob-bar prob-draw" style="width:12.1%"></div></div>
+                                <span class="prob-val">12,1%</span>
+                            </div>
+                            <div class="prob-item">
+                                <span class="prob-label">Wolverhampton</span>
+                                <div class="prob-bar-wrap"><div class="prob-bar prob-away" style="width:5.7%"></div></div>
+                                <span class="prob-val">5,7%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="c:\Users\Win 10\Downloads\AfcBournemouth.png" alt="Wolverhampton"
+                         class="next-badge" onerror="this.src=''; this.style.background='#60a5fa'; this.style.borderRadius='50%'; this.style.display='flex'; this.textContent='WOL'">
+                </div>
+                <div class="next-team-names">
+                    <span>Bournemouth</span>
+                    <span>Wolverhampton</span>
+                </div>
+            </div>
+
+            <!-- Últimos 5 confrontos Arsenal x Chelsea -->
+            <div class="section-title" style="margin-top:2rem;">Últimos 5 Confrontos — Arsenal × Chelsea</div>
+            <div class="h2h-header card" style="padding:1rem 1.5rem; margin-bottom:1rem;">
+                <div class="h2h-summary">
+                    <div class="h2h-team">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="Arsenal" class="h2h-badge">
+                        <span class="h2h-team-name">Arsenal</span>
+                        <span class="h2h-wins wins-home">4V</span>
+                    </div>
+                    <div class="h2h-totals">
+                        <span class="h2h-record">215 jogos no total</span>
+                        <span class="h2h-record-detail">ARS 88 · Emp 61 · CHE 66</span>
+                        <span class="h2h-streak">🔥 Arsenal invicto nos últimos 11 confrontos</span>
+                    </div>
+                    <div class="h2h-team">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" alt="Chelsea" class="h2h-badge">
+                        <span class="h2h-team-name">Chelsea</span>
+                        <span class="h2h-wins wins-away">0V</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="h2h-list card" style="padding:1rem 1.5rem;">
+                <!-- jogo 1 -->
+                <div class="h2h-row">
+                    <span class="h2h-date">01/03/2026</span>
+                    <span class="h2h-competition">Premier League</span>
+                    <div class="h2h-match">
+                        <span class="h2h-team-label ars">Arsenal</span>
+                        <span class="h2h-score win-home">2 – 1</span>
+                        <span class="h2h-team-label che">Chelsea</span>
+                    </div>
+                    <span class="h2h-result-pill res-home">ARS</span>
+                </div>
+                <!-- jogo 2 -->
+                <div class="h2h-row">
+                    <span class="h2h-date">30/11/2025</span>
+                    <span class="h2h-competition">Premier League</span>
+                    <div class="h2h-match">
+                        <span class="h2h-team-label che">Chelsea</span>
+                        <span class="h2h-score draw">1 – 1</span>
+                        <span class="h2h-team-label ars">Arsenal</span>
+                    </div>
+                    <span class="h2h-result-pill res-draw">EMP</span>
+                </div>
+                <!-- jogo 3 -->
+                <div class="h2h-row">
+                    <span class="h2h-date">16/03/2025</span>
+                    <span class="h2h-competition">Premier League</span>
+                    <div class="h2h-match">
+                        <span class="h2h-team-label ars">Arsenal</span>
+                        <span class="h2h-score win-home">1 – 0</span>
+                        <span class="h2h-team-label che">Chelsea</span>
+                    </div>
+                    <span class="h2h-result-pill res-home">ARS</span>
+                </div>
+                <!-- jogo 4 -->
+                <div class="h2h-row">
+                    <span class="h2h-date">10/11/2024</span>
+                    <span class="h2h-competition">Premier League</span>
+                    <div class="h2h-match">
+                        <span class="h2h-team-label che">Chelsea</span>
+                        <span class="h2h-score draw">1 – 1</span>
+                        <span class="h2h-team-label ars">Arsenal</span>
+                    </div>
+                    <span class="h2h-result-pill res-draw">EMP</span>
+                </div>
+                <!-- jogo 5 -->
+                <div class="h2h-row">
+                    <span class="h2h-date">23/04/2024</span>
+                    <span class="h2h-competition">Premier League</span>
+                    <div class="h2h-match">
+                        <span class="h2h-team-label ars">Arsenal</span>
+                        <span class="h2h-score win-home">5 – 0</span>
+                        <span class="h2h-team-label che">Chelsea</span>
+                    </div>
+                    <span class="h2h-result-pill res-home">ARS</span>
+                </div>
+            </div>
         </div>
 
         <!-- RECORDES HISTÓRICOS -->
