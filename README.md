@@ -21,9 +21,9 @@ O projeto foi estruturado de forma que cada integrante ficasse responsável pelo
    * **Branch:** `feature/[Estatisticas]`
    * **Contribuição:** Desenvolvimento da página de Estatísticas e integrações.
 
-3. **[Nome do Integrante 3]**
-   * **Branch:** `feature/[nome-da-branch]`
-   * **Contribuição:** Desenvolvimento da página `[Ex: sobre.html ou contato.html]` e integrações.
+3. **Gustavo Araújo**
+   * **Branch:** `feature/lendas`
+   * **Contribuição:** Desenvolvimento da página de lendas e integrações.
 
 ---
 
