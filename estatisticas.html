@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas - Futebol Total</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Partida no topo ── */
+        .match-hero {
+            background: linear-gradient(rgba(11,61,46,0.88), rgba(11,61,46,0.97)),
+                        repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.02) 20px,rgba(255,255,255,0.02) 40px);
+            color: var(--white);
+            padding: 2.5rem 1rem 1.5rem;
+            text-align: center;
+        }
+        .match-competition {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+        .match-scoreboard {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .match-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 100px;
+        }
+        .team-badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.12);
+            padding: 6px;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.18);
+            overflow: hidden;
+        }
+        .team-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .match-team-name { font-size: 0.95rem; font-weight: 600; }
+        .match-score {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+        .score-sep { color: var(--accent); margin: 0 0.25rem; }
+        .match-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ── Abas ── */
+        .stats-tabs {
+            background-color: var(--primary);
+            display: flex;
+            overflow-x: auto;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: rgba(255,255,255,0.55);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.85rem 1.25rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .tab-btn:hover { color: var(--white); }
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ── Painéis ── */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Estatísticas ── */
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--bg-light);
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            min-width: 38px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-main);
+        }
+        .stat-value.right { text-align: left; }
+        .stat-value.left  { text-align: right; }
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            flex: 1;
+            white-space: nowrap;
+        }
+        .bar-track {
+            flex: 1;
+            height: 7px;
+            background-color: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+        .bar-home-track { justify-content: flex-end; }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .bar-fill.home { background-color: #c8102e; }
+        .bar-fill.away { background-color: #034694; }
+
+        /* legenda dos times */
+        .team-legend {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .legend-team {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-badge {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* ── Eventos ── */
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--bg-light);
+        }
+        .event-item:last-child { border-bottom: none; }
+        .event-min {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 34px;
+            font-variant-numeric: tabular-nums;
+        }
+        .event-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .ev-goal   { background: #dcfce7; }
+        .ev-yellow { background: #fef9c3; }
+        .ev-red    { background: #fee2e2; }
+        .ev-sub    { background: #dbeafe; }
+        .event-info { flex: 1; }
+        .event-player { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .event-detail { font-size: 0.78rem; color: var(--text-muted); }
+        .event-team-pill {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 99px;
+            color: var(--white);
+        }
+        .event-team-pill img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        .pill-home { background: #c8102e; }
+        .pill-away { background: #034694; }
+
+        /* ── Jogadores ── */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .player-card {
+            background-color: var(--bg-card);
+            border-radius: 0.5rem;
+            padding: 1.1rem 1.25rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+        .player-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1);
+        }
+        .player-card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            opacity: 0.7;
+        }
+        .player-rating {
+            font-size: 2rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+        .rating-high  { color: var(--accent); }
+        .rating-mid   { color: var(--gold); }
+        .rating-low   { color: #ef4444; }
+        .player-name  { font-size: 0.95rem; font-weight: 700; margin-top: 4px; }
+        .player-pos   { font-size: 0.78rem; color: var(--text-muted); }
+        .player-stats-mini {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--bg-light);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .mini-item b { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+
+        /* ── Contadores ── */
+        .stats-subtitle {
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .match-score { font-size: 2.8rem; }
+            .stat-label  { font-size: 0.7rem; }
+            .team-badge  { width: 56px; height: 56px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Futebol <span>Total</span></a>
+            <button class="menu-toggle" aria-label="Abrir Menu">☰</button>
+            <nav class="nav-menu">
+                <a href="index.html">Início</a>
+                <a href="noticias.html">Notícias</a>
+                <a href="campeonatos.html">Campeonatos</a>
+                <a href="lendas.html">Lendas</a>
+                <a href="estatisticas.html" class="active">Estatísticas</a>
+            </nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Mudar Tema">🌙</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- CABEÇALHO DA PARTIDA -->
+        <div class="match-hero">
+            <p class="match-competition">⚽ Premier League · Rodada 28 · 22 Mar 2026</p>
+            <div class="match-scoreboard">
+                <div class="match-team">
+                    <div class="team-badge">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg"
+                             alt="Arsenal" onerror="this.parentElement.innerHTML='ARS'">
+                    </div>
+                    <span class="match-team-name">Arsenal</span>
+                </div>
+                <div>
+                    <div class="match-score">
+                        <span>2</span><span class="score-sep">–</span><span>1</span>
+                    </div>
+                </div>
+                <div class="match-team">
+                    <div class="team-badge">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg"
+                             alt="Chelsea" onerror="this.parentElement.innerHTML='CHE'">
+                    </div>
+                    <span class="match-team-name">Chelsea</span>
+                </div>
+            </div>
+            <div class="match-meta">
+                <span>⏱ Encerrado</span>
+                <span>📍 Emirates Stadium</span>
+                <span>👥 59.867 pessoas</span>
+            </div>
+        </div>
+
+        <!-- ABAS -->
+        <div class="stats-tabs" role="tablist">
+            <button class="tab-btn active" role="tab" onclick="showTab('estatisticas', this)">Estatísticas</button>
+            <button class="tab-btn" role="tab" onclick="showTab('eventos', this)">Eventos</button>
+            <button class="tab-btn" role="tab" onclick="showTab('jogadores', this)">Jogadores</button>
+        </div>
+
+        <!-- PAINEL: ESTATÍSTICAS -->
+        <div id="panel-estatisticas" class="tab-panel active container" style="max-width:800px;">
+            <div class="section-title">Comparativo da Partida</div>
+
+            <div class="card" style="padding:1.5rem;">
+                <div class="team-legend">
+                    <span class="legend-team">
+                        <img class="legend-badge" src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="Arsenal">
+                        Arsenal
+                    </span>
+                    <span class="legend-team">
+                        Chelsea
+                        <img class="legend-badge" src="https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" alt="Chelsea">
+                    </span>
+                </div>
+                <div id="stat-rows"></div>
+            </div>
+        </div>
+
+        <!-- PAINEL: EVENTOS -->
+        <div id="panel-eventos" class="tab-panel container" style="max-width:700px;">
+            <div class="section-title">Linha do Tempo</div>
+            <div class="card" style="padding:1.5rem;">
+                <div id="events-list"></div>
+            </div>
+        </div>
+
+        <!-- PAINEL: JOGADORES -->
+        <div id="panel-jogadores" class="tab-panel container">
+            <div class="section-title">Arsenal</div>
+            <div class="players-grid" id="players-home"></div>
+
+            <div class="section-title" style="margin-top:2rem;">Chelsea</div>
+            <div class="players-grid" id="players-away"></div>
+        </div>
+
+        <!-- RECORDES HISTÓRICOS -->
+        <section class="container">
+            <h2 class="section-title">Recordes & Números Históricos</h2>
+            <div class="counters-grid">
+                <div class="counter-card">
+                    <div class="counter-number" data-target="2450">0</div>
+                    <p>Gols marcados na Premier League em 2025/26</p>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" data-target="38">0</div>
+                    <p>Rodadas na temporada regular</p>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" data-target="20">0</div>
+                    <p>Clubes na Premier League</p>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number" data-target="92">0</div>
+                    <p>Maior pontuação histórica em uma temporada</p>
+                </div>
+            </div>
+
+            <div class="tables-section">
+                <div class="table-wrapper">
+                    <h3>🏅 Artilheiros da Temporada</h3>
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Jogador</th><th>Clube</th><th>Gols</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Erling Haaland</td><td>Man. City</td><td>28</td></tr>
+                            <tr><td>2</td><td>Cole Palmer</td><td>Chelsea</td><td>21</td></tr>
+                            <tr><td>3</td><td>Bukayo Saka</td><td>Arsenal</td><td>19</td></tr>
+                            <tr><td>4</td><td>Mo Salah</td><td>Liverpool</td><td>18</td></tr>
+                            <tr><td>5</td><td>Marcus Rashford</td><td>Man. United</td><td>14</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-wrapper">
+                    <h3>🏆 Classificação — Premier League</h3>
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Clube</th><th>PJ</th><th>Pts</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Arsenal</td><td>28</td><td>63</td></tr>
+                            <tr><td>2</td><td>Man. City</td><td>28</td><td>61</td></tr>
+                            <tr><td>3</td><td>Liverpool</td><td>28</td><td>58</td></tr>
+                            <tr><td>4</td><td>Chelsea</td><td>28</td><td>52</td></tr>
+                            <tr><td>5</td><td>Tottenham</td><td>28</td><td>48</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Futebol Total</h3>
+                <p>O portal definitivo para a comunidade amante do futebol.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="noticias.html">Notícias</a></li>
+                    <li><a href="campeonatos.html">Campeonatos</a></li>
+                    <li><a href="lendas.html">Lendas</a></li>
+                    <li><a href="estatisticas.html">Estatísticas</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Siga-nos</h4>
+                <div class="social-icons">
+                    <a href="#">🌐 Facebook</a>
+                    <a href="#">📸 Instagram</a>
+                    <a href="#">🐦 Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Futebol Total. Trabalho Acadêmico Fictício - Sem Fins Lucrativos.</p>
+        </div>
+    </footer>
+
+    <button id="back-to-top" title="Voltar ao Topo">↑</button>
+
+    <script>
+        /* URLs dos escudos */
+        const LOGOS = {
+            home: 'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
+            away: 'https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg',
+        };
+
+        /* ── Dados ── */
+        const statsData = [
+            { name: 'Posse de bola', home: 58, away: 42, unit: '%' },
+            { name: 'Finalizações',  home: 15, away: 9,  unit: '' },
+            { name: 'No alvo',       home: 6,  away: 4,  unit: '' },
+            { name: 'Escanteios',    home: 7,  away: 3,  unit: '' },
+            { name: 'Faltas',        home: 10, away: 14, unit: '' },
+            { name: 'Cartões amarelos', home: 2, away: 3, unit: '' },
+            { name: 'Impedimentos', home: 1,  away: 2,  unit: '' },
+            { name: 'Passes',        home: 542,away: 389,unit: '' },
+            { name: 'Precisão de passes', home: 91, away: 84, unit: '%' },
+            { name: 'Defesas do goleiro', home: 3, away: 4, unit: '' },
+        ];
+
+        const events = [
+            { min: 18, type: 'goal',   player: 'Saka',                        detail: 'Gol — assist. Ødegaard',          team: 'home' },
+            { min: 34, type: 'yellow', player: 'Gallagher',                    detail: 'Cartão amarelo',                   team: 'away' },
+            { min: 51, type: 'goal',   player: 'Palmer',                       detail: 'Gol — chute de fora da área',      team: 'away' },
+            { min: 63, type: 'sub',    player: 'Trossard ↑  Martinelli ↓',    detail: 'Substituição',                     team: 'home' },
+            { min: 71, type: 'yellow', player: 'Cucurella',                    detail: 'Cartão amarelo',                   team: 'away' },
+            { min: 78, type: 'goal',   player: 'Havertz',                      detail: 'Gol — cabeceio após escanteio',    team: 'home' },
+            { min: 86, type: 'red',    player: 'Chalobah',                     detail: 'Cartão vermelho — 2º amarelo',     team: 'away' },
+        ];
+
+        const playersHome = [
+            { name: 'B. Saka',     pos: 'Meia-dir.',  rating: 8.4, shots: 4, passes: 51, tackles: 2 },
+            { name: 'K. Havertz',  pos: 'Centroavante', rating: 8.1, shots: 3, passes: 38, tackles: 1 },
+            { name: 'M. Ødegaard', pos: 'Meia',       rating: 7.9, shots: 2, passes: 72, tackles: 3 },
+            { name: 'D. Raya',     pos: 'Goleiro',    rating: 7.5, shots: 0, passes: 34, tackles: 3 },
+        ];
+        const playersAway = [
+            { name: 'C. Palmer',  pos: 'Meia',        rating: 7.8, shots: 4, passes: 45, tackles: 1 },
+            { name: 'N. Jackson', pos: 'Centroavante',rating: 6.8, shots: 2, passes: 18, tackles: 0 },
+            { name: 'R. James',   pos: 'Lat. Dir.',   rating: 6.4, shots: 1, passes: 52, tackles: 4 },
+            { name: 'R. Sánchez', pos: 'Goleiro',     rating: 6.9, shots: 0, passes: 28, tackles: 4 },
+        ];
+
+        const evIcons = {
+            goal:   { cls: 'ev-goal',   icon: '⚽' },
+            yellow: { cls: 'ev-yellow', icon: '🟨' },
+            red:    { cls: 'ev-red',    icon: '🟥' },
+            sub:    { cls: 'ev-sub',    icon: '🔄' },
+        };
+
+        /* ── Renderização ── */
+        function renderStats() {
+            const el = document.getElementById('stat-rows');
+            el.innerHTML = statsData.map(s => {
+                const total = s.home + s.away;
+                const homePct = total === 0 ? 50 : Math.round((s.home / total) * 100);
+                const awayPct = 100 - homePct;
+                return `<div class="stat-row">
+                    <span class="stat-value left">${s.home}${s.unit}</span>
+                    <div class="bar-track bar-home-track">
+                        <div class="bar-fill home" style="width:${homePct}%"></div>
+                    </div>
+                    <span class="stat-label">${s.name}</span>
+                    <div class="bar-track">
+                        <div class="bar-fill away" style="width:${awayPct}%"></div>
+                    </div>
+                    <span class="stat-value right">${s.away}${s.unit}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderEvents() {
+            const el = document.getElementById('events-list');
+            el.innerHTML = events.map(e => {
+                const ic = evIcons[e.type];
+                const logoSrc = LOGOS[e.team];
+                const abbr = e.team === 'home' ? 'ARS' : 'CHE';
+                return `<div class="event-item">
+                    <span class="event-min">${e.min}'</span>
+                    <span class="event-icon ${ic.cls}">${ic.icon}</span>
+                    <div class="event-info">
+                        <div class="event-player">${e.player}</div>
+                        <div class="event-detail">${e.detail}</div>
+                    </div>
+                    <span class="event-team-pill ${e.team === 'home' ? 'pill-home' : 'pill-away'}">
+                        <img src="${logoSrc}" alt="${abbr}" onerror="this.style.display='none'">
+                        ${abbr}
+                    </span>
+                </div>`;
+            }).join('');
+        }
+
+        function ratingClass(r) {
+            if (r >= 8) return 'rating-high';
+            if (r >= 7) return 'rating-mid';
+            return 'rating-low';
+        }
+
+        function renderPlayers(players, id, teamKey) {
+            const logo = LOGOS[teamKey];
+            document.getElementById(id).innerHTML = players.map(p => `
+                <div class="player-card">
+                    <img class="player-card-badge" src="${logo}" alt="escudo"
+                         onerror="this.style.display='none'">
+                    <div class="player-rating ${ratingClass(p.rating)}">${p.rating.toFixed(1)}</div>
+                    <div class="player-name">${p.name}</div>
+                    <div class="player-pos">${p.pos}</div>
+                    <div class="player-stats-mini">
+                        <div class="mini-item"><b>${p.shots}</b>Chutes</div>
+                        <div class="mini-item"><b>${p.passes}</b>Passes</div>
+                        <div class="mini-item"><b>${p.tackles}</b>Desarmes</div>
+                    </div>
+                </div>`).join('');
+        }
+
+        /* ── Abas ── */
+        function showTab(id, btn) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + id).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        /* ── Contadores animados ── */
+        function animateCounters() {
+            document.querySelectorAll('.counter-number[data-target]').forEach(el => {
+                const target = parseInt(el.dataset.target);
+                const duration = 1500;
+                const step = target / (duration / 16);
+                let current = 0;
+                const interval = setInterval(() => {
+                    current = Math.min(current + step, target);
+                    el.textContent = Math.floor(current).toLocaleString('pt-BR');
+                    if (current >= target) clearInterval(interval);
+                }, 16);
+            });
+        }
+
+        /* ── Menu mobile ── */
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        menuToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+
+        /* ── Tema escuro ── */
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+            themeBtn.textContent = isDark ? '🌙' : '☀️';
+        });
+
+        /* ── Voltar ao topo ── */
+        const backBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => backBtn.classList.toggle('show', window.scrollY > 400));
+        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ── IntersectionObserver para contadores ── */
+        const countersSection = document.querySelector('.counters-grid');
+        if (countersSection) {
+            const observer = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting) { animateCounters(); observer.disconnect(); }
+            }, { threshold: 0.3 });
+            observer.observe(countersSection);
+        }
+
+        renderStats();
+        renderEvents();
+        renderPlayers(playersHome, 'players-home', 'home');
+        renderPlayers(playersAway, 'players-away', 'away');
+    </script>
+</body>
+</html>

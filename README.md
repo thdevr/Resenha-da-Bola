@@ -18,6 +18,10 @@ O projeto foi estruturado de forma que cada integrante ficasse responsável pelo
    * **Contribuição:** Desenvolvimento e estruturação da Página Inicial (`index.html`), criação da folha de estilos compartilhada (`style.css`) e implementação dos scripts dinâmicos de comportamento da interface (`script.js`), uso do comando git log --oneline --graph.
 
 2. **[Nome do Integrante 2]**
+   * **Branch:** `feature/[Estatisticas]`
+   * **Contribuição:** Desenvolvimento da página de Estatísticas e integrações.
+
+3. **[Nome do Integrante 3]**
    * **Branch:** `feature/[nome-da-branch]`
    * **Contribuição:** Desenvolvimento da página `[Ex: sobre.html ou contato.html]` e integrações.
 
