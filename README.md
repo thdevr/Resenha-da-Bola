@@ -25,7 +25,9 @@ O projeto foi estruturado de forma que cada integrante ficasse responsável pelo
    * **Branch:** `feature/[nome-da-branch]`
    * **Contribuição:** Desenvolvimento da página `[Ex: sobre.html ou contato.html]` e integrações.
 
----
+4. **[Ádson]**
+   * **Branch:** `feature/Loja`
+   * **Contribuição:** Desenvolvimento da página de Loja do Site `Loja.html`
 
 ## Tecnologias Utilizadas
 * **HTML5:** Estruturação das páginas interligadas do site institucional.
